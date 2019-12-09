@@ -11,7 +11,8 @@ Welcome to mrmote's Blog's documentation!
    :caption: Contents:
 
    Demo
-   我的笔记/技术002KPod 
+   我的笔记/技术002KPod
+   我的笔记/技术002KPromethus 
 
 Indices and tables
 ==================

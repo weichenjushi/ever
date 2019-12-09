@@ -1,0 +1,44 @@
+技术002KNToolsIptables
+
+1. Linux防火墙(Iptables)重启系统生效 开启： chkconfig iptables on 关闭：
+   chkconfig iptables off 2.Linux防火墙(Iptables) 即时生效，重启后失效
+   开启： service iptables start 关闭： service iptables stop 规则列表
+   iptables –line-numbers -nvL Chain INPUT (policy ACCEPT 0 packets, 0
+   bytes) num pkts bytes target prot opt in out source destination 1
+   126G 214T ACCEPT all – \* \* 0.0.0.0/0 0.0.0.0/0 state
+   RELATED,ESTABLISHED 2 39M 2738M ACCEPT icmp – \* \* 0.0.0.0/0
+   0.0.0.0/0 3 3347K 177M ACCEPT all – lo \* 0.0.0.0/0 0.0.0.0/0 4 660M
+   37G ACCEPT all – eth0 \* 10.0.0.0/8 0.0.0.0/0
+
+5 232M 15G REJECT all – \* \* 0.0.0.0/0 0.0.0.0/0 reject-with
+icmp-host-prohibited
+
+6 0 0 DROP all – \* \* 0.0.0.0/0 0.0.0.0/0 Chain FORWARD (policy ACCEPT
+0 packets, 0 bytes) num pkts bytes target prot opt in out source
+destination 1 0 0 DOCKER-ISOLATION all – \* \* 0.0.0.0/0 0.0.0.0/0 2 0 0
+DOCKER all – \* docker0 0.0.0.0/0 0.0.0.0/0 3 0 0 ACCEPT all – \*
+docker0 0.0.0.0/0 0.0.0.0/0 ctstate RELATED,ESTABLISHED 4 0 0 ACCEPT all
+– docker0 !docker0 0.0.0.0/0 0.0.0.0/0 5 0 0 ACCEPT all – docker0
+docker0 0.0.0.0/0 0.0.0.0/0 6 0 0 REJECT all – \* \* 0.0.0.0/0 0.0.0.0/0
+reject-with icmp-host-prohibited Chain OUTPUT (policy ACCEPT 50G
+packets, 57T bytes) num pkts bytes target prot opt in out source
+destination Chain DOCKER (1 references) num pkts bytes target prot opt
+in out source destination Chain DOCKER-ISOLATION (1 references) num pkts
+bytes target prot opt in out source destination 1 0 0 RETURN all – \* \*
+0.0.0.0/0 0.0.0.0/0 规则添加
+
+iptables -A
+添加的规则是添加在最后面。如针对INPUT链增加一条规则，接收从eth0口进入且源地址为192.168.0.0/16网段发往本机的数据。
+
+iptables -A INPUT -i eth0 -s 172.19.0.0/16 -j ACCEPT iptables -I
+添加的规则默认添加至第一条。 iptables -I INPUT -i eth0 -s 172.19.0.0/16
+-j ACCEPT # 在表ACCEPT中插入第一条数据 iptables -I INPUT -i eth0 -s
+172.20.22.0/24 -j ACCEPT # 在表ACCEPT中插入第一条数据 iptables -I INPUT
+-i eth0 -s 172.20.24.0/24 -j ACCEPT # 在表ACCEPT中插入第一条数据
+删除规则 iptables -t filter -D INPUT 7 # 删除INPUT表中的第7条数据
+iptables -t filter -D OUTPUT 1 # 删除OUTPUT表中的第1条数据 service
+iptables save 规则数据保存在文件中 /etc/sysconfig/iptables service
+iptables save # 将文件保存在/etc/sysconfig/iptables 恢复iptables rules
+iptables-restore </dd/iptables.bak
+
+1.%20Linux%E9%98%B2%E7%81%AB%E5%A2%99(Iptables)%E9%87%8D%E5%90%AF%E7%B3%BB%E7%BB%9F%E7%94%9F%E6%95%88%0A%E5%BC%80%E5%90%AF%EF%BC%9A%20chkconfig%20iptables%20on%20%20%0A%E5%85%B3%E9%97%AD%EF%BC%9A%20chkconfig%20iptables%20off%20%20%0A2.Linux%E9%98%B2%E7%81%AB%E5%A2%99(Iptables)%20%E5%8D%B3%E6%97%B6%E7%94%9F%E6%95%88%EF%BC%8C%E9%87%8D%E5%90%AF%E5%90%8E%E5%A4%B1%E6%95%88%0A%E5%BC%80%E5%90%AF%EF%BC%9A%20service%20iptables%20start%20%20%0A%E5%85%B3%E9%97%AD%EF%BC%9A%20service%20iptables%20stop%20%20%0A%E8%A7%84%E5%88%99%E5%88%97%E8%A1%A8%0Aiptables%20–line-numbers%20-nvL%0AChain%20INPUT%20(policy%20ACCEPT%200%20packets%2C%200%20bytes)%0Anum%20%20%20pkts%20bytes%20target%20%20%20%20%20prot%20opt%20in%20%20%20%20%20out%20%20%20%20%20source%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20destination%0A1%20%20%20%20%20126G%20%20214T%20ACCEPT%20%20%20%20%20all%20%20–%20%20\ *%20%20%20%20%20%20*\ %20%20%20%20%20%20%200.0.0.0%2F0%20%20%20%20%20%20%20%20%20%20%20%200.0.0.0%2F0%20%20%20%20%20%20%20%20%20%20%20%20state%20RELATED%2CESTABLISHED%0A2%20%20%20%20%20%2039M%202738M%20ACCEPT%20%20%20%20%20icmp%20–%20%20\ *%20%20%20%20%20%20*\ %20%20%20%20%20%20%200.0.0.0%2F0%20%20%20%20%20%20%20%20%20%20%20%200.0.0.0%2F0%0A3%20%20%20%203347K%20%20177M%20ACCEPT%20%20%20%20%20all%20%20–%20%20lo%20%20%20%20%20\ *%20%20%20%20%20%20%200.0.0.0%2F0%20%20%20%20%20%20%20%20%20%20%20%200.0.0.0%2F0%0A4%20%20%20%20%20660M%20%20%2037G%20ACCEPT%20%20%20%20%20all%20%20–%20%20eth0%20%20%20*\ %20%20%20%20%20%20%2010.0.0.0%2F8%20%20%20%20%20%20%20%20%20%20%200.0.0.0%2F0%0A5%20%20%20%20%20232M%20%20%2015G%20REJECT%20%20%20%20%20all%20%20–%20%20\ *%20%20%20%20%20%20*\ %20%20%20%20%20%20%200.0.0.0%2F0%20%20%20%20%20%20%20%20%20%20%20%200.0.0.0%2F0%20%20%20%20%20%20%20%20%20%20%20%20reject-with%20icmp-host-prohibited%0A6%20%20%20%20%20%20%20%200%20%20%20%20%200%20DROP%20%20%20%20%20%20%20all%20%20–%20%20\ *%20%20%20%20%20%20*\ %20%20%20%20%20%20%200.0.0.0%2F0%20%20%20%20%20%20%20%20%20%20%20%200.0.0.0%2F0%0AChain%20FORWARD%20(policy%20ACCEPT%200%20packets%2C%200%20bytes)%0Anum%20%20%20pkts%20bytes%20target%20%20%20%20%20prot%20opt%20in%20%20%20%20%20out%20%20%20%20%20source%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20destination%0A1%20%20%20%20%20%20%20%200%20%20%20%20%200%20DOCKER-ISOLATION%20%20all%20%20–%20%20\ *%20%20%20%20%20%20*\ %20%20%20%20%20%20%200.0.0.0%2F0%20%20%20%20%20%20%20%20%20%20%20%200.0.0.0%2F0%0A2%20%20%20%20%20%20%20%200%20%20%20%20%200%20DOCKER%20%20%20%20%20all%20%20–%20%20\ *%20%20%20%20%20%20docker0%20%200.0.0.0%2F0%20%20%20%20%20%20%20%20%20%20%20%200.0.0.0%2F0%0A3%20%20%20%20%20%20%20%200%20%20%20%20%200%20ACCEPT%20%20%20%20%20all%20%20–%20%20*\ %20%20%20%20%20%20docker0%20%200.0.0.0%2F0%20%20%20%20%20%20%20%20%20%20%20%200.0.0.0%2F0%20%20%20%20%20%20%20%20%20%20%20%20ctstate%20RELATED%2CESTABLISHED%0A4%20%20%20%20%20%20%20%200%20%20%20%20%200%20ACCEPT%20%20%20%20%20all%20%20–%20%20docker0%20!docker0%20%200.0.0.0%2F0%20%20%20%20%20%20%20%20%20%20%20%200.0.0.0%2F0%0A5%20%20%20%20%20%20%20%200%20%20%20%20%200%20ACCEPT%20%20%20%20%20all%20%20–%20%20docker0%20docker0%20%200.0.0.0%2F0%20%20%20%20%20%20%20%20%20%20%20%200.0.0.0%2F0%0A6%20%20%20%20%20%20%20%200%20%20%20%20%200%20REJECT%20%20%20%20%20all%20%20–%20%20\ *%20%20%20%20%20%20*\ %20%20%20%20%20%20%200.0.0.0%2F0%20%20%20%20%20%20%20%20%20%20%20%200.0.0.0%2F0%20%20%20%20%20%20%20%20%20%20%20%20reject-with%20icmp-host-prohibited%0AChain%20OUTPUT%20(policy%20ACCEPT%2050G%20packets%2C%2057T%20bytes)%0Anum%20%20%20pkts%20bytes%20target%20%20%20%20%20prot%20opt%20in%20%20%20%20%20out%20%20%20%20%20source%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20destination%0AChain%20DOCKER%20(1%20references)%0Anum%20%20%20pkts%20bytes%20target%20%20%20%20%20prot%20opt%20in%20%20%20%20%20out%20%20%20%20%20source%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20destination%0AChain%20DOCKER-ISOLATION%20(1%20references)%0Anum%20%20%20pkts%20bytes%20target%20%20%20%20%20prot%20opt%20in%20%20%20%20%20out%20%20%20%20%20source%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20destination%0A1%20%20%20%20%20%20%20%200%20%20%20%20%200%20RETURN%20%20%20%20%20all%20%20–%20%20\ *%20%20%20%20%20%20*\ %20%20%20%20%20%20%200.0.0.0%2F0%20%20%20%20%20%20%20%20%20%20%20%200.0.0.0%2F0%0A%E8%A7%84%E5%88%99%E6%B7%BB%E5%8A%A0%0Aiptables%20-A%20%E6%B7%BB%E5%8A%A0%E7%9A%84%E8%A7%84%E5%88%99%E6%98%AF%E6%B7%BB%E5%8A%A0%E5%9C%A8%E6%9C%80%E5%90%8E%E9%9D%A2%E3%80%82%E5%A6%82%E9%92%88%E5%AF%B9INPUT%E9%93%BE%E5%A2%9E%E5%8A%A0%E4%B8%80%E6%9D%A1%E8%A7%84%E5%88%99%EF%BC%8C%E6%8E%A5%E6%94%B6%E4%BB%8Eeth0%E5%8F%A3%E8%BF%9B%E5%85%A5%E4%B8%94%E6%BA%90%E5%9C%B0%E5%9D%80%E4%B8%BA192.168.0.0%2F16%E7%BD%91%E6%AE%B5%E5%8F%91%E5%BE%80%E6%9C%AC%E6%9C%BA%E7%9A%84%E6%95%B0%E6%8D%AE%E3%80%82%0Aiptables%20-A%20INPUT%20-i%20eth0%20-s%20172.19.0.0%2F16%20-j%20ACCEPT%0Aiptables%20-I%20%E6%B7%BB%E5%8A%A0%E7%9A%84%E8%A7%84%E5%88%99%E9%BB%98%E8%AE%A4%E6%B7%BB%E5%8A%A0%E8%87%B3%E7%AC%AC%E4%B8%80%E6%9D%A1%E3%80%82%0Aiptables%20-I%20INPUT%20-i%20eth0%20-s%20172.19.0.0%2F16%20-j%20ACCEPT%20%23%20%E5%9C%A8%E8%A1%A8ACCEPT%E4%B8%AD%E6%8F%92%E5%85%A5%E7%AC%AC%E4%B8%80%E6%9D%A1%E6%95%B0%E6%8D%AE%0Aiptables%20-I%20INPUT%20-i%20eth0%20-s%20172.20.22.0%2F24%20-j%20ACCEPT%20%23%20%E5%9C%A8%E8%A1%A8ACCEPT%E4%B8%AD%E6%8F%92%E5%85%A5%E7%AC%AC%E4%B8%80%E6%9D%A1%E6%95%B0%E6%8D%AE%0Aiptables%20-I%20INPUT%20-i%20eth0%20-s%20172.20.24.0%2F24%20-j%20ACCEPT%20%23%20%E5%9C%A8%E8%A1%A8ACCEPT%E4%B8%AD%E6%8F%92%E5%85%A5%E7%AC%AC%E4%B8%80%E6%9D%A1%E6%95%B0%E6%8D%AE%0A%E5%88%A0%E9%99%A4%E8%A7%84%E5%88%99%0Aiptables%20-t%20filter%20-D%20INPUT%207%20%23%20%E5%88%A0%E9%99%A4INPUT%E8%A1%A8%E4%B8%AD%E7%9A%84%E7%AC%AC7%E6%9D%A1%E6%95%B0%E6%8D%AE%0Aiptables%20-t%20filter%20-D%20OUTPUT%201%20%23%20%E5%88%A0%E9%99%A4OUTPUT%E8%A1%A8%E4%B8%AD%E7%9A%84%E7%AC%AC1%E6%9D%A1%E6%95%B0%E6%8D%AE%0Aservice%20iptables%20save%0A%E8%A7%84%E5%88%99%E6%95%B0%E6%8D%AE%E4%BF%9D%E5%AD%98%E5%9C%A8%E6%96%87%E4%BB%B6%E4%B8%AD%0A%2Fetc%2Fsysconfig%2Fiptables%0Aservice%20iptables%20save%20%20%20%23%20%E5%B0%86%E6%96%87%E4%BB%B6%E4%BF%9D%E5%AD%98%E5%9C%A8%2Fetc%2Fsysconfig%2Fiptables%0A%E6%81%A2%E5%A4%8Diptables%20rules%0Aiptables-restore%20%3C%2Fdd%2Fiptables.bak%0A

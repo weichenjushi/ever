@@ -10,7 +10,8 @@ Welcome to mrmote's Blog's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-
+   Demo
+   我的笔记/技术002KPod 
 
 Indices and tables
 ==================

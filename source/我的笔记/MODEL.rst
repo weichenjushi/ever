@@ -1,4 +1,4 @@
-MODEL
+model
 
 |IMG_2048.PNG| |IMG_2049.PNG| |IMG_1776.PNG|
 

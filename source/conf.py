@@ -17,7 +17,7 @@ import sys
 
 # -- Project information -----------------------------------------------------
 
-project = "mrmote's Blog"
+project = "mrmote's kubernetes Blog"
 copyright = '2019, mrmote'
 author = 'mrmote'
 

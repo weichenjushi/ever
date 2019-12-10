@@ -7,10 +7,10 @@ Welcome to mrmote's kubernetes 笔记!
 =========================================
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
    :caption: Contents:
     
-   我的笔记/MODEL
+   我的笔记/model
    我的笔记/技术002CImageSpec
    我的笔记/技术002COCI
    我的笔记/技术002CRunc
@@ -45,7 +45,8 @@ Welcome to mrmote's kubernetes 笔记!
    我的笔记/技术002K生产TroubleMaking
    我的笔记/技术002K命令篇
    我的笔记/技术002K学习资料
-   我的笔记/技术002K流量处理  
+   我的笔记/技术002K流量处理 
+   
 Indices and tables
 ==================
 

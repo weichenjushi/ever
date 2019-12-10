@@ -1,5 +1,8 @@
 技术002COCI
 
+技术002COCI
+===========
+
 Open Container Initiative
 (OCI)是一个轻量级工程，指定了企业容器的使用标准，在2015年6月22日，由Docker/CoreOS和容器产业的领导者创立。
 
@@ -7,6 +10,9 @@ OCI包括两个规范：the Runtime Specification (runtime-spec) and the Image
 Specification
 (image-spec).前者概括了一批文件是如何存放在磁盘中或者说OCI制定了将OCI镜像解压到OCI的运行环境中
 
-`Go-digest <https://github.com/opencontainers/go-digest>`__ 是容器生态系统中的一个摘要包，根据文件内容的二进制文件和hash算法（sha256-64bit,sha384-96bit,sha512-128bit）生成的唯一的字符串。
+Go-digest
+是容器生态系统中的一个摘要包，根据文件内容的二进制文件和hash算法（sha256-64bit,sha384-96bit,sha512-128bit）生成的唯一的字符串。
 
-`Runc <https://github.com/opencontainers/runc>`__ 是用于生产和运行容器的命令行工具，符合OCI标准。
+Runc 是用于生产和运行容器的命令行工具，符合OCI标准。
+
+%23%20%E6%8A%80%E6%9C%AF002COCI%0A%0AOpen%20Container%20Initiative%20(OCI)%E6%98%AF%E4%B8%80%E4%B8%AA%E8%BD%BB%E9%87%8F%E7%BA%A7%E5%B7%A5%E7%A8%8B%EF%BC%8C%E6%8C%87%E5%AE%9A%E4%BA%86%E4%BC%81%E4%B8%9A%E5%AE%B9%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8%E6%A0%87%E5%87%86%EF%BC%8C%E5%9C%A82015%E5%B9%B46%E6%9C%8822%E6%97%A5%EF%BC%8C%E7%94%B1Docker%2FCoreOS%E5%92%8C%E5%AE%B9%E5%99%A8%E4%BA%A7%E4%B8%9A%E7%9A%84%E9%A2%86%E5%AF%BC%E8%80%85%E5%88%9B%E7%AB%8B%E3%80%82%0AOCI%E5%8C%85%E6%8B%AC%E4%B8%A4%E4%B8%AA%E8%A7%84%E8%8C%83%EF%BC%9Athe%20Runtime%20Specification%20(runtime-spec)%20and%20the%20Image%20Specification%20(image-spec).%E5%89%8D%E8%80%85%E6%A6%82%E6%8B%AC%E4%BA%86%E4%B8%80%E6%89%B9%E6%96%87%E4%BB%B6%E6%98%AF%E5%A6%82%E4%BD%95%E5%AD%98%E6%94%BE%E5%9C%A8%E7%A3%81%E7%9B%98%E4%B8%AD%E6%88%96%E8%80%85%E8%AF%B4OCI%E5%88%B6%E5%AE%9A%E4%BA%86%E5%B0%86OCI%E9%95%9C%E5%83%8F%E8%A7%A3%E5%8E%8B%E5%88%B0OCI%E7%9A%84%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83%E4%B8%AD%0AGo-digest%20%E6%98%AF%E5%AE%B9%E5%99%A8%E7%94%9F%E6%80%81%E7%B3%BB%E7%BB%9F%E4%B8%AD%E7%9A%84%E4%B8%80%E4%B8%AA%E6%91%98%E8%A6%81%E5%8C%85%EF%BC%8C%E6%A0%B9%E6%8D%AE%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E7%9A%84%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%87%E4%BB%B6%E5%92%8Chash%E7%AE%97%E6%B3%95%EF%BC%88sha256-64bit%2Csha384-96bit%2Csha512-128bit%EF%BC%89%E7%94%9F%E6%88%90%E7%9A%84%E5%94%AF%E4%B8%80%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2%E3%80%82%0ARunc%20%E6%98%AF%E7%94%A8%E4%BA%8E%E7%94%9F%E4%BA%A7%E5%92%8C%E8%BF%90%E8%A1%8C%E5%AE%B9%E5%99%A8%E7%9A%84%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B7%A5%E5%85%B7%EF%BC%8C%E7%AC%A6%E5%90%88OCI%E6%A0%87%E5%87%86%E3%80%82%0A
